@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 class VoiceflowService {
   constructor() {
-    this.versionID = "sandbox";
+    this.versionID = "production";
     this.config = { stopAll: false, excludeTypes: ["block", "debug", "flow", "path"] };
     this.userID = null;
   }
