@@ -23,7 +23,7 @@ export const sendMessage = async (req, res) => {
       messageType = 'text';
       convertedFromAudio = true;
     }
-
+    
     // Criar e salvar a mensagem enviada pelo usuário
     const userMessage = new Message(null, messageType, messageContent, 'sent', new Date(), null, convertedFromAudio);
     chat.messages.push(userMessage);

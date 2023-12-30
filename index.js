@@ -1,3 +1,4 @@
+// Em server.js ou index.js
 import express from 'express';
 import cors from 'cors';
 
