@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "japa",
+    "test": "node bin/test.js",
     "start": "nodemon index.js"
   },
   "keywords": [],
@@ -23,7 +23,7 @@
     "@babel/core": "^7.21.4",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.21.4",
-    "japa": "^4.0.0",
+    "@japa/assert": "^2.1.0",
     "nodemon": "^2.0.22"
   }
 }
