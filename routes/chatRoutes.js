@@ -7,10 +7,24 @@ const chatController = new ChatController();
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: Authorization
+ * security:
+ *   - ApiKeyAuth: []
+ */
+
+/**
+ * @swagger
  * /api/chats/initialize:
  *   post:
  *     summary: Inicializa um chat
  *     tags: [Chat]
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       200:
  *         description: Retorna o ID do chat inicializado
@@ -25,6 +39,8 @@ const chatController = new ChatController();
  *                     id:
  *                       type: string
  *                       description: ID do chat inicializado
+ *       401:
+ *         description: Não autorizado
  *       500:
  *         description: Erro interno do servidor
  */
@@ -40,6 +56,8 @@ router.post('/api/chats/initialize', authenticate, (req, res) => {
  *   get:
  *     summary: Obtém o ID de um chat
  *     tags: [Chat]
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       200:
  *         description: Retorna o ID do chat
@@ -54,6 +72,8 @@ router.post('/api/chats/initialize', authenticate, (req, res) => {
  *                     id:
  *                       type: string
  *                       description: ID do chat
+ *       401:
+ *         description: Não autorizado
  *       500:
  *         description: Erro interno do servidor
  */
@@ -69,6 +89,8 @@ router.get('/api/chats/id', authenticate, (req, res) => {
  *   post:
  *     summary: Envia uma mensagem no chat
  *     tags: [Chat]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -113,6 +135,8 @@ router.get('/api/chats/id', authenticate, (req, res) => {
  *                         type: string
  *                       convertedFromAudio:
  *                         type: boolean
+ *       401:
+ *         description: Não autorizado
  *       500:
  *         description: Erro ao enviar a mensagem
  */
