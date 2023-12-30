@@ -11,7 +11,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: process.env.HOST_URL || 'http://localhost:3000', // Use a variável de ambiente HOST_URL
       },
     ],
   },
