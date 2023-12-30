@@ -16,34 +16,47 @@ export const registerUser = async (req, res) => {
       password,
     });
 
-    // Retorne os detalhes do usuário criado
     res.status(201).send({ userId: userRecord.uid });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-// Função para autenticar um usuário
-export const loginUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    // Aqui você precisará implementar a lógica de login
-    // O Firebase Admin SDK não fornece um método direto para autenticar usuários
-    // Você pode precisar usar o Firebase Authentication no lado do cliente
-    // ou implementar um sistema de tokens personalizado
+// Middleware para verificar o token de ID do Firebase
+export const authenticate = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).send({ message: 'No token provided' });
+  }
 
-    res.status(200).send({ message: 'Login successful' });
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.userId = decodedToken.uid;
+    next();
+  } catch (error) {
+    res.status(401).send({ message: 'Failed to authenticate token' });
+  }
+};
+
+// Função para obter os detalhes do usuário autenticado
+export const getUserDetails = async (req, res) => {
+  try {
+    const userRecord = await admin.auth().getUser(req.userId);
+    res.status(200).send({ userDetails: userRecord });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-// Função para logout do usuário
-export const logoutUser = async (req, res) => {
-  try {
-    // Implemente a lógica de logout conforme necessário
-    res.status(200).send({ message: 'Logout successful' });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+// Função para logout do usuário (gerenciado no lado do cliente)
+export const logoutUser = (req, res) => {
+  // O logout é geralmente gerenciado no lado do cliente em aplicativos Firebase
+  res.status(200).send({ message: 'Logout successful' });
+};
+
+export default {
+  registerUser,
+  authenticate,
+  getUserDetails,
+  logoutUser
 };

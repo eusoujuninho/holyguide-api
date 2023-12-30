@@ -1,36 +1,53 @@
-import firebase from '../firebase.js';
 import Chat from '../models/chatModel.js';
-import { getFirestore, collection, doc, addDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import Message from '../models/messageModel.js';
+import transcribeAudio from '../utils/transcribeAudio.js';
+import voiceflowService from '../services/VoiceflowService.js';
 
-const db = getFirestore(firebase);
-
-// Criar novo chat
-export const createChat = async (req, res) => {
+export const sendMessage = async (req, res) => {
   try {
-    const data = req.body;
-    await addDoc(collection(db, 'chats'), data);
-    res.status(200).send('Chat created successfully');
+    const { userId, content, type } = req.body;
+
+    voiceflowService.setUserID(userId);
+    const chat = await Chat.getOrCreateByUserId(userId);
+
+    if (!chat.id) {
+      await voiceflowService.startChat(chat.id);
+    }
+
+    let messageContent = content;
+    let messageType = type;
+    let convertedFromAudio = false;
+
+    if (type === 'audiofile') {
+      messageContent = await transcribeAudio(content);
+      messageType = 'text';
+      convertedFromAudio = true;
+    }
+
+    // Criar e salvar a mensagem enviada pelo usuário
+    const userMessage = new Message(null, messageType, messageContent, 'sent', new Date(), null, convertedFromAudio);
+    chat.messages.push(userMessage);
+    await chat.save();
+
+    // Enviar mensagem para o Voiceflow e processar a resposta
+    const voiceflowResponse = await voiceflowService.interact('text', messageContent);
+
+    // Processar cada item da resposta do Voiceflow
+    voiceflowResponse.forEach(async (item) => {
+      let responseMessageType = item.type;
+      let responseMessageContent = item.payload.message || '';
+      let responseMessageAudioUrl = item.type === 'audio' ? item.payload.src : null;
+
+      // Criar e salvar a mensagem recebida do Voiceflow
+      const responseMessage = new Message(null, responseMessageType, responseMessageContent, 'received', new Date(), responseMessageAudioUrl);
+      chat.messages.push(responseMessage);
+    });
+
+    // Salvar o chat com as novas mensagens
+    await chat.save();
+
+    res.status(200).json({ message: 'Message sent and response processed successfully', chat });
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(500).send({ message: error.message });
   }
-};
-
-// Obter todos os chats
-export const getChats = async (req, res) => {
-  // Implementação semelhante ao getProducts
-};
-
-// Obter chat por ID
-export const getChat = async (req, res) => {
-  // Implementação semelhante ao getProduct
-};
-
-// Atualizar chat
-export const updateChat = async (req, res) => {
-  // Implementação semelhante ao updateProduct
-};
-
-// Deletar chat
-export const deleteChat = async (req, res) => {
-  // Implementação semelhante ao deleteProduct
 };
