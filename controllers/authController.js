@@ -1,12 +1,6 @@
 import admin from 'firebase-admin';
 import config from '../config.js';
 
-// Inicialize o Firebase Admin com as credenciais do projeto
-admin.initializeApp({
-  credential: admin.credential.cert(config.firebaseServiceAccount),
-  // ... outras configurações necessárias
-});
-
 // Função para registrar um novo usuário
 export const registerUser = async (req, res) => {
   try {

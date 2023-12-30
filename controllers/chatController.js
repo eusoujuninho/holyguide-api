@@ -1,7 +1,7 @@
 import Chat from '../models/chatModel.js';
 import Message from '../models/messageModel.js';
 import transcribeAudio from '../libs/sttGenerator.js';
-import voiceflowService from '../services/VoiceflowService.js';
+import voiceflowService from '../services/voiceflowService.js';
 
 
 class ChatController {

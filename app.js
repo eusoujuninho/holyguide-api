@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import chatRoutes from './routes/chatRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import swaggerMiddleware from './middlewares/swaggerMiddleware.js'; // Certifique-se de que o caminho está correto
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 swaggerMiddleware(app);
 
 // Rotas do Chat
+app.use(authRoutes);
 app.use(chatRoutes);
 
 export default app;
