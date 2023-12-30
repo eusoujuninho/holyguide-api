@@ -1,4 +1,4 @@
-import BaseModel from "../repositories/baseModel";
+import BaseModel from "./baseModel.js";
 
 class User extends BaseModel {
   static collectionName = "users";

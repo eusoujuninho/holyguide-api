@@ -1,5 +1,4 @@
-import BaseRepository from '../repositories/baseRepository';
-import BaseModel from './baseModel';
+import BaseModel from "./baseModel.js";
 
 class Audio extends BaseModel {
   static collectionName = 'audios';

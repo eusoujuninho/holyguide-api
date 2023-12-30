@@ -1,4 +1,4 @@
-import BaseModel from "./baseModel";
+import BaseModel from "./baseModel.js";
 
 class Chat extends BaseModel {
   static collectionName = "chats";
@@ -10,6 +10,7 @@ class Chat extends BaseModel {
     createdAt = new Date(),
     updatedAt = new Date()
   ) {
+  
     super(Chat.collectionName);
     this.id = id;
     this.userId = userId;
@@ -60,3 +61,5 @@ class Chat extends BaseModel {
     }
   }
 }
+
+export default Chat;

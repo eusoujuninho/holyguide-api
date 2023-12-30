@@ -1,0 +1,22 @@
+{
+  "name": "process.cwd()",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node bin/test.js"
+  },
+  "version": "0.0.0",
+  "devDependencies": {
+    "@japa/api-client": "^2.0.0-1",
+    "@japa/browser-client": "^2.0.0-4",
+    "@japa/expect": "^3.0.0-1",
+    "@japa/expect-type": "^2.0.0-1",
+    "@japa/file-system": "^2.0.0-2",
+    "@japa/runner": "^3.0.0-9",
+    "@japa/snapshot": "^2.0.0-2",
+    "playwright": "^1.41.0-alpha-dec-30-2023",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
