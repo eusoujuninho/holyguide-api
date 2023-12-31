@@ -1,5 +1,4 @@
-import admin from 'firebase-admin';
-import config from '../config.js';
+import admin from '../firebase.js'; // Caminho para o seu arquivo Firebase Admin
 
 // Função para registrar um novo usuário
 export const registerUser = async (req, res) => {

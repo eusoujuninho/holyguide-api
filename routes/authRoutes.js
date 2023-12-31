@@ -31,7 +31,7 @@ const router = express.Router();
  *                   type: string
  *                   description: Mensagem de erro detalhada
  */
-router.post('/anonymous-auth', async (req, res) => {
+router.post('/auth/anom', async (req, res) => {
   try {
     const userRecord = await admin.auth().createUser({});
     const token = await admin.auth().createCustomToken(userRecord.uid);
@@ -76,7 +76,7 @@ router.post('/anonymous-auth', async (req, res) => {
  *       500:
  *         description: Erro ao processar a autenticação
  */
-router.post('/email-auth', async (req, res) => {
+router.post('/auth', async (req, res) => {
   const { email, password } = req.body;
 
   try {
